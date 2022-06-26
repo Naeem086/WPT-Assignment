@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let A = [];
+            for (let i = 0; i < 10; i++) {
+                A[i] = Math.floor((Math.random() * 100) + 1);
+            }
+
+            const num = document.querySelector('#num');
+            num.addEventListener('blur', () => {
+                let output = findNum(num.value);
+                if (output) {
+                    document.querySelector('#msg').innerText = "Number Matched";
+                    document.querySelector('#add').disabled = true;
+                    document.querySelector('#edit').disabled = false;
+                    document.querySelector('#delete').disabled = false;
+                    document.querySelector('#view').disabled = true;
+                    document.querySelector('#oddpos').disabled = false;
+                } else {
+                    document.querySelector('#msg').innerText = "Number not found";
+                    document.querySelector('#oddpos').disabled = true;
+                    document.querySelector('#edit').disabled = true;
+                    document.querySelector('#delete').disabled = true;
+                    document.querySelector('#view').disabled = true;
+                    document.querySelector('#add').disabled = false;
+                }
+            });
+
+            const add = document.querySelector('#add');
+            add.addEventListener('click', () => {
+                A.push(+document.querySelector('#num').value);
+                document.querySelector('#msg').innerText = "Number Added in the Array";
+                document.querySelector('#add').disabled = true;
+                document.querySelector('#edit').disabled = true;
+                document.querySelector('#delete').disabled = true;
+                document.querySelector('#view').disabled = false;
+                document.querySelector('#oddpos').disabled = false;
+            });
+
+            const edit = document.querySelector('#edit');
+            edit.addEventListener('click', () => {
+                let newValue = prompt();
+                let allow = replaceValue(newValue);
+                if (allow) {
+                    document.querySelector('#msg').innerText = "Value Updated";
+                    document.querySelector('#view').disabled = false;
+                    document.querySelector('#edit').disabled = true;
+                    document.querySelector('#delete').disabled = true;
+                }
+                else {
+                    document.querySelector('#msg').innerText = "Value can't be repeated";
+                    document.querySelector('#view').disabled = false;
+                }
+
+            });
+
+            const deletenum = document.querySelector('#delete');
+            deletenum.addEventListener('click', () => {
+                let num = document.querySelector('#num');
+                let output = deletevalue(num.value);
+                if (output) {
+                    document.querySelector('#msg').innerText = "Value Deleted";
+                    document.querySelector('#view').disabled = false;
+                    document.querySelector('#edit').disabled = true;
+                    document.querySelector('#delete').disabled = true;
+                }
+            });
+
+            const oddpos = document.querySelector('#oddpos');
+            oddpos.addEventListener('click', () => {
+                let output = showoddpos();
+                document.querySelector('#result').innerText = output;
+            });
+
+            const view = document.querySelector('#view');
+            view.addEventListener('click', () => {
+                document.querySelector('#result').innerText = A;
+            })
+
+            function findNum(x) {
+                let output = false;
+                for (let i = 0; i < A.length; i++) {
+                    if (A[i] == x) {
+                        output = true;
+                    }
+                }
+                return output;
+            }
+
+            function replaceValue(newVal) {
+                let oldVal = document.querySelector('#num').value;
+                let allow = true;
+                for (let i = 0; i < A.length; i++) {
+                    if (A[i] == newVal) {
+                        allow = false;
+                        break;
+                    }
+                }
+                if (allow) {
+                    for (let i = 0; i < A.length; i++) {
+                        if (A[i] == oldVal) {
+                            A[i] = newVal;
+                        }
+                    }
+                }
+                return allow;
+            }
+
+            function deletevalue(num) {
+                for (let i = 0; i < A.length; i++) {
+                    if (A[i] == num) {
+                        A.splice(i, 1);
+                        break;
+                    }
+                }
+                return true;
+            }
+
+            function showoddpos() {
+                let content = "";
+                for (let i = 0; i < A.length; i++) {
+                    if ((i + 1) % 2 == 1) {
+                        content += A[i] + ",";
+                    }
+                }
+                return content;
+            }
+
+        });
+
+    </script>
+</head>
+
+<body>
+    <h1>Assignment 1st </h1>
+    <input type="text" id="num" placeholder="Input Number">
+    <span id="msg"> X </span><br /><br />
+    <button id="add" disabled> Add </button>
+    <button id="edit" disabled> Edit </button>
+    <button id="delete" disabled> Delete </button>
+    <button id="view"> View all </button>
+    <button id="oddpos"> Show Odd Positions </button>
+    <br /><br />
+    <span id="result"> Result </span>
+</body>
+
+</html>

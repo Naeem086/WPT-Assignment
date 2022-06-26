@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(() => {
+            $("#pin").blur(() => {
+                let input = { accountno: $("#accno").val() };
+                let contactserver = {
+                    data: input,
+                    url: "http://localhost:900/getdetails",
+                    type: 'get',
+                    dataType: 'json',
+                    success: (data) => {
+                        if (data != null) {
+                            $("#msg").text(data.balance + " Rs/-");
+                        } else if (data) {
+                            $("#msg").text("Account not found...!");
+                        }
+                    },
+                    error: (data) => {
+                        console.log("Failed...!");
+                    }
+                }
+                $.ajax(contactserver);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1> Account Assignment </h1>
+    Account Number : <input type="text" placeholder="Enter Account Number" name="accountno" id="accno">
+    <span id="msg">Balance available...</span>
+</body>
+
+</html>

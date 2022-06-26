@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+        $(() => {
+            $("#id").blur(() => {
+                let input = { resno: $("#id").val() };
+                let contactserver = {
+                    data: input,
+                    url: "http://localhost:800/select",
+                    type: 'get',
+                    dataType: 'json',
+                    success: (data) => {
+                        if (data) {
+                            $("#msg").text("Item Matched..!");
+                        } else {
+                            $("#msg").text("Item not found..!");
+                        }
+                    },
+                    error: (data) => {
+                        console.log("Something goes wrong...!");
+                    }
+                }
+                $.ajax(contactserver);
+            });
+
+            $("#update").click(() => {
+                console.log("Fined..!");
+                let input = { resno: $("#id").val(), resname: $("#name").val(), resstats: $("#status").val() };
+                let contactserver = {
+                    data: input,
+                    url: "http://localhost:800/update",
+                    type: 'get',
+                    dataType: 'json',
+                    success: (data) => {
+                        if (data)
+                            $("#msg").text("Update Successfull");
+                        else
+                            $("#msg").text("Update Failed !");
+                    },
+                    error: (data) => {
+                        console.log("Something goes wrong...!");
+                    }
+                }
+                $.ajax(contactserver);
+            });
+
+            $("#add").click(() => {
+                let input = { resno: $("#id").val(), resname: $("#name").val(), resstats: $("#status").val() };
+                let contactserver = {
+                    data: input,
+                    url: "http://localhost:800/insert",
+                    type: 'get',
+                    dataType: 'json',
+                    success: (data) => {
+                        if (data)
+                            $("#msg").text("Insert Successfull");
+                        else
+                            $("#msg").text("Insert Failed !");
+                    },
+                    error: (data) => {
+                        console.log("Something goes wrong...!");
+                    }
+                }
+                $.ajax(contactserver);
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <h1> Assignment 2nd - Item Price </h1>
+    resource Id : <input type="text" placeholder="Enter item number" id="id" name="resno"> <span id="msg"> Message
+    </span>
+    <br> <br>
+    resource Name : <input type="text" placeholder="Item Name" id="name" name="resname"> <br><br>
+    resource status : <input type="text" placeholder="Status" id="status" name="resstats"><br><br>
+    <input type="button" id="update" value="Update"> <input type="button" id="add" value="Insert">
+
+</body>
+
+</html>
